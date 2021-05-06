@@ -1,6 +1,6 @@
 <?php
 
-namespace Electronics;
+namespace Electronic;
 
 class ElectronicItems
 {
@@ -10,7 +10,7 @@ class ElectronicItems
     const ELECTRONIC_ITEM_CONTROLLER = 'controller';
 
     /** @var string[] */
-    private static $types = [
+    private static array $types = [
         self::ELECTRONIC_ITEM_CONSOLE,
         self::ELECTRONIC_ITEM_MICROWAVE,
         self::ELECTRONIC_ITEM_TELEVISION,
@@ -18,7 +18,7 @@ class ElectronicItems
     ];
 
     /** @var array */
-    private $items;
+    private array $items;
 
     /**
      * ElectronicItems constructor.
@@ -35,11 +35,11 @@ class ElectronicItems
      * @param $type
      * @return bool
      */
-    public function getSortedItems($type)
+    public function getSortedItems($type): bool
     {
         $sorted = array();
         $thisTypeItems = $this->getItemsByType($type);
-        /** @var ElectronicItem $item */
+        /** @var AbstractElectronicItem $item */
         foreach ($thisTypeItems as $item) {
             $sorted[($item->getPrice() * 100)] = $item;
         }
@@ -55,7 +55,7 @@ class ElectronicItems
     public function getItemsByType($type)
     {
         if (in_array($type, self::$types)) {
-            $callback = function (ElectronicItem $item) use ($type) {
+            $callback = function (AbstractElectronicItem $item) use ($type) {
                 return $item->getType() == $type;
             };
             return array_filter($this->getItems(), $callback);
@@ -70,6 +70,4 @@ class ElectronicItems
     {
         return $this->items;
     }
-
-
 }
