@@ -5,6 +5,10 @@ namespace Electronic;
 use Electronic\Factory\AbstractFactoryInterface;
 use Electronic\Features\PriceInterface;
 
+/**
+ * Class ElectronicItems
+ * @package Electronic
+ */
 class ElectronicItems
 {
     const ELECTRONIC_ITEM_TELEVISION = 'television';
@@ -34,10 +38,12 @@ class ElectronicItems
     }
 
     /**
+     * Get the pricing of specific items
+     *
      * @param array $items
      * @return float
      */
-    public function getPricing(array $items): float
+    private function getPricing(array $items): float
     {
         $pricing = 0.0;
         /** @var AbstractElectronicItem $item */
@@ -51,6 +57,8 @@ class ElectronicItems
     }
 
     /**
+     * Get the total pricing of the all the items
+     *
      * @return float
      */
     public function getTotalPricing(): float
@@ -67,7 +75,9 @@ class ElectronicItems
 
 
     /**
-     * @param string|null $type
+     * Get the items sorted by Price
+     *
+     * @param string|null $type if is present it will sort this type of items
      * @return array
      */
     public function getSortedItems(string $type = null): array
@@ -106,6 +116,8 @@ class ElectronicItems
     }
 
     /**
+     * Get the electronic items
+     *
      * @return array
      */
     public function getItems(): array
