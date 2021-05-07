@@ -13,7 +13,7 @@
       "Electronic\\": "src/Electronic"
     }
   },
-  "require-dev": {
-    "symfony/var-dumper": "^5.2"
+  "require": {
+    "php": ">=7.4"
   }
 }
