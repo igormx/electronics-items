@@ -2,6 +2,9 @@
 
 namespace Electronic;
 
+use Electronic\Factory\AbstractFactoryInterface;
+use Electronic\Features\PriceInterface;
+
 class ElectronicItems
 {
     const ELECTRONIC_ITEM_TELEVISION = 'television';
@@ -23,27 +26,66 @@ class ElectronicItems
     /**
      * ElectronicItems constructor.
      * @param array $items
+     * @param AbstractFactoryInterface $abstractFactory
      */
-    public function __construct(array $items)
+    public function __construct(array $items, AbstractFactoryInterface $abstractFactory)
     {
-        $this->items = $items;
+        $this->items = $abstractFactory->createElectronicItems($items);
     }
 
     /**
-     * Returns the items depending on the sorting type requested
-     *
-     * @param $type
-     * @return bool
+     * @param array $items
+     * @return float
      */
-    public function getSortedItems($type): bool
+    public function getPricing(array $items): float
     {
-        $sorted = array();
-        $thisTypeItems = $this->getItemsByType($type);
+        $pricing = 0.0;
         /** @var AbstractElectronicItem $item */
-        foreach ($thisTypeItems as $item) {
-            $sorted[($item->getPrice() * 100)] = $item;
+        foreach ($items as $item) {
+            if ($item instanceof PriceInterface) {
+                $pricing += $item->getPrice();
+            }
         }
-        return ksort($sorted, SORT_NUMERIC);
+
+        return $pricing;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalPricing(): float
+    {
+        $totalPricing = 0.0;
+        /** @var AbstractElectronicItem $item */
+        foreach ($this->getItems() as $item) {
+            $extrasPricing = $this->getPricing($item->getExtrasList());
+            $totalPricing += ($item->getPrice() + $extrasPricing);
+        }
+
+        return $totalPricing;
+    }
+
+
+    /**
+     * @param string|null $type
+     * @return array
+     */
+    public function getSortedItems(string $type = null): array
+    {
+        $sorted = [];
+        if ($type === null) {
+            $items = $this->getItems();
+        } else {
+            $items = $this->getItemsByType($type);
+        }
+
+        /** @var AbstractElectronicItem $item */
+        foreach ($items as $item) {
+            $extrasPricing = $this->getPricing($item->getExtrasList());
+            $sorted[(($item->getPrice() + $extrasPricing) * 100)] = $item;
+        }
+        ksort($sorted, SORT_NUMERIC);
+        return $sorted;
     }
 
     /**
@@ -66,7 +108,7 @@ class ElectronicItems
     /**
      * @return array
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }

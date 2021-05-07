@@ -1,0 +1,19 @@
+{
+  "name": "igormx/electronics",
+  "description": "Electronic Items questions",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Carlos Nacianceno",
+      "email": "nacianceno@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Electronic\\": "src/Electronic"
+    }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.2"
+  }
+}

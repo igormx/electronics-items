@@ -10,10 +10,10 @@ class Television extends AbstractElectronicItem implements MaxExtrasInterface
 {
     /**
      * Get the maxExtras of the electronic
-     * @return int
+     * @return bool
      */
-    public static function maxExtras()
+    public static function maxExtras(): bool
     {
-        return 0;
+        return true;
     }
 }

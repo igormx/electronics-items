@@ -14,6 +14,6 @@ class Console extends AbstractElectronicItem implements MaxExtrasInterface
      */
     public static function maxExtras()
     {
-        return 0;
+        return 4;
     }
 }
